@@ -16,6 +16,12 @@
   </v-app>
 </template>
 
+<style>
+::-webkit-scrollbar{
+  overflow: hidden;
+  display: none;
+}
+</style>
 <script>
 import SearchFilter from './components/SearchFilter';
 
