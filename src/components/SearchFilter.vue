@@ -43,7 +43,7 @@
       <v-list>
         <v-list-item
           v-for="(item, index) in items"
-          :key="index"
+          :key="index+'asd'"
           @click="checkFunction(index)"
         >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -57,7 +57,7 @@
     <v-list v-if="searchFilter == ''" three-line class="customList">
       <template v-for="(item, index) in mock_data">
         <v-list-item 
-          :key="index"
+          :key="index+'232'"
         >
           <v-list-item-avatar>
             <v-img :src="item.image"></v-img>
@@ -69,7 +69,7 @@
           </v-list-item-content>
         </v-list-item>
          <v-divider
-          :key="item.name"
+          :key="index+'aa2'"
           :inset="true"
         ></v-divider>
       </template>
@@ -78,7 +78,7 @@
     <v-list v-else-if="sorted_mock_data_alpha" three-line class="customList">
       <template v-for="(item, index) in sortedMockDataAplha">
         <v-list-item 
-          :key="index"
+          :key="index+'aa3'"
         >
           <v-list-item-avatar>
             <v-img :src="item.image"></v-img>
@@ -90,7 +90,7 @@
           </v-list-item-content>
         </v-list-item>
          <v-divider
-          :key="item.name"
+          :key="index+'aa4'"
           :inset="true"
         ></v-divider>
       </template>
@@ -99,7 +99,7 @@
     <v-list v-else-if="sorted_mock_data_date" three-line class="customList">
       <template v-for="(item, index) in sortedMockDataDate">
         <v-list-item 
-          :key="index"
+          :key="index+'aa5'"
         >
           <v-list-item-avatar>
             <v-img :src="item.image"></v-img>
@@ -111,7 +111,7 @@
           </v-list-item-content>
         </v-list-item>
          <v-divider
-          :key="item.name"
+          :key="index+'aa6'"
           :inset="true"
         ></v-divider>
       </template>
@@ -120,7 +120,7 @@
     <v-list v-else three-line class="customList">
       <template v-for="(item, index) in getFilteredMockData">
         <v-list-item 
-          :key="index"
+          :key="index+'aa7'"
         >
           <v-list-item-avatar>
             <v-img :src="item.image"></v-img>
@@ -132,7 +132,7 @@
           </v-list-item-content>
         </v-list-item>
          <v-divider
-          :key="item.name"
+          :key="index+'aa9'"
           :inset="true"
         ></v-divider>
       </template>
@@ -168,7 +168,7 @@
 }
 </style>
 <script>
-import json_data from '@/assets/mock_data.json'
+import axios from 'axios'
 
 export default {
   name: 'SearchFilter',
@@ -176,13 +176,19 @@ export default {
     return{
       searchFilter: '',
       filtered_mock_data: [],
-      mock_data: json_data,
+      mock_data: [],
       sorted_mock_data_alpha: false,
+      sorted_mock_data_date: false,
       items: [
         { title: 'Sort Title Alphabetically'},
         { title: 'Sort By Date'}
       ]
     }
+  },
+  mounted(){
+    axios
+      .get('https://search-sort-server.herokuapp.com/mockData')
+      .then(response => (this.mock_data = response.data))
   },
   computed: {
     getFilteredMockData(){
@@ -244,7 +250,7 @@ export default {
       this.sortedMockDataAplha()
     },
     sortDataByTime(){
-      this.sorted_mock_data=true
+      this.sorted_mock_data_date=true
       this.sortedMockDataDate()
     },
     sortedMockDataDate(){
@@ -255,7 +261,7 @@ export default {
   watch: {
     searchFilter() {
       this.sorted_mock_data_alpha=false
-      this.sorted_mock_data=false
+      this.sorted_mock_data_date=false
     },
   },
 };
